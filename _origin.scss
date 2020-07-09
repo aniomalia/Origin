@@ -1,10 +1,19 @@
 /*
 ###################
+\\ ORIGIN SETTINGS
+###################
+*/
+/* // Compilation Line */
+/* sass --watch _origin.scss:origin.css */
+
+/*
+###################
 \\ VARIABLES
 ###################
 */
 
 /* // Select */
+$select-headings: 'h1, h2, h3, h4, h5, h6';
 $select-buttons: 'button, [type="submit"], [type="reset"], [type="clear"], .a-button';
 $select-inputs: 'input[type="text"], input[type="email"], textarea';
 
@@ -27,16 +36,16 @@ $default-colors: (
 
 /* // Layout */
 $breakpoints: (
-    "tiny": 320,
-    "mini": 480,
-    "small": 767,
-    "medium": 1024,
-    "large": 1280,
     "huge": 1560,
+    "large": 1280,
+    "medium": 1024,
+    "small": 767,
+    "mini": 480,
+    "tiny": 320,
 );
 $ratio: (
     "golden": 1.618,
-    "wide": 0.5625
+    "wide": 0.5625,
 );
 
 /* // Text */
@@ -57,7 +66,7 @@ $font-fallback: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto
     @return strip-unit($number) / 16 * 100%;
 }
 @function pixels-to-em($pixels) {
-    @return (strip-unit($number) / 16) + 'em';
+    @return (strip-unit($number) / 16) + "em";
 }
 
 /*
@@ -79,17 +88,17 @@ $font-fallback: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto
     @for $i from 1 to 13 {
         .l-grid.of-#{$i}#{$suffix} > *,
         .of-#{$i}#{$suffix} {
-            width: #{(100/12 * $i) + '%'};
-            flex: 0 0 #{(100/12 * $i) + '%'};
+            width: #{(100/12 * $i) + "%"};
+            flex: 0 0 #{(100/12 * $i) + "%"};
         }
     }
     .of-5th#{$suffix} {
-        width: #{(100/5) + '%'};
-        flex: 0 0 #{(100/5) + '%'};
+        width: #{(100/5) + "%"};
+        flex: 0 0 #{(100/5) + "%"};
     }
     .of-7th#{$suffix} {
-        width: #{(100/7) + '%'};
-        flex: 0 0 #{(100/7) + '%'};
+        width: #{(100/7) + "%"};
+        flex: 0 0 #{(100/7) + "%"};
     }
 }
 @mixin on-breakpoints {
@@ -109,15 +118,26 @@ $font-fallback: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto
 
 /* // Spacing */
 @mixin gap($name, $col-spacing, $row-spacing: $col-spacing) {
-    .gap-#{$name} {
+    .gap#{$name} {
         margin: -#{$row-spacing} -#{$col-spacing/2} 0;
         > * {
             padding: $row-spacing #{$col-spacing/2} 0;
         }
     }
-    .vgap-#{$name} > * + * {
+    .vgap#{$name} > * + * {
         margin: 0;
         margin-top: $row-spacing;
+    }
+    .pad#{$name} {
+        padding: $row-spacing $col-spacing;
+    }
+    .vpad#{$name} {
+        padding-top: $row-spacing;
+        padding-bottom: $row-spacing;
+    }
+    .hpad#{$name} {
+        padding-left: $col-spacing;
+        padding-right: $col-spacing;
     }
 }
 
@@ -130,6 +150,15 @@ $font-fallback: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto
 }
 @mixin default-ease {
     transition: all 0.26s ease;
+}
+
+@mixin first-last-margin {
+    &:first-child {
+        margin-top: 0;
+    }
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 /*
@@ -201,14 +230,14 @@ section {
     -webkit-font-variant-ligatures: none;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+p {
+    @include first-last-margin;
+}
+
+#{$select-headings} {
     font-weight: bold;
     line-height: 1.2;
+    @include first-last-margin;
 }
 
 h1 {
@@ -277,7 +306,7 @@ abbr,
 dfn,
 acronym,
 time {
-    border-bottom: 1px dashed map-get($default-colors, "lightgray");
+    border-bottom: 1px dashed map-get($default-colors, "gray");
     text-decoration: none;
     font-style: normal;
 }
@@ -395,6 +424,16 @@ hr {
     display: flex;
     flex-flow: column nowrap;
 }
+.l-bar {
+    display: flex;
+    flex-wrap: wrap;
+    > :first-child {
+        margin-right: auto;
+    }
+}
+.l-line {
+    display: flex;
+}
 .l-ratio {
     position: relative;
     height: 0;
@@ -427,18 +466,109 @@ hr {
     }
 }
 
-/* // Visibility */
-.is-hidden {
-    display: none;
-    @include on-breakpoints() {
-        display: none;
+/* // Layout Utility Classes */
+.align-center {
+    align-items: center;
+}
+.align-start {
+    align-items: flex-start;
+}
+.align-end {
+    align-items: flex-end;
+}
+.align-stretch {
+    align-items: stretch;
+}
+
+.to-center {
+    justify-content: center;
+}
+.to-sides {
+    justify-content: space-between;
+}
+.to-start {
+    justify-content: flex-start;
+}
+.to-end {
+    justify-content: flex-end;
+}
+.to-around {
+    justify-content: space-around;
+}
+.to-even {
+    justify-content: space-evenly;
+}
+
+.mr-auto {
+    margin-right: auto;
+}
+.ml-auto {
+    margin-left: auto;
+}
+.mt-auto {
+    margin-top: auto;
+}
+.mb-auto {
+    margin-bottom: auto;
+}
+
+.flex-fill {
+    flex: 1;
+}
+.flex-auto {
+    flex: 0 0 auto;
+}
+
+.order-0 {
+    @include on-breakpoints {
+        order: -1;
     }
 }
-.is-visible {
-    &,
-    &-desktop,
-    &-tablet,
-    &-phone {
+.order-1 {
+    @include on-breakpoints {
+        order: 1;
+    }
+}
+.order-2 {
+    @include on-breakpoints {
+        order: 2;
+    }
+}
+.order-3 {
+    @include on-breakpoints {
+        order: 3;
+    }
+}
+
+/*
+#### .z-index ranges
+# 1. 0-99 - base level
+# 2. 100-199 - sticky header, fixed share links
+# 3. 200-299 - modals, pop-ups
+# 4. 300-399 - alerts, notices, legal
+*/
+.z-base {
+    z-index: 10;
+}
+.z-sticky {
+    z-index: 110;
+}
+.z-modal {
+    z-index: 210;
+}
+.z-alert {
+    z-index: 310;
+}
+
+/* // Visibility */
+.is-hidden,
+.hidden,
+.screen-reader-text,
+.screen-reader-shortcut {
+    display: none;
+}
+.is-hidden {
+    @include on-breakpoints() {
         display: none;
     }
 }
@@ -477,6 +607,17 @@ hr {
 .g-footer {
     margin-top: auto;
 }
+.l-in {
+    max-width: 1440px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 2rem;
+}
+
+/* // Spacing */
+@include gap('', 2em);
+@include gap('-s', 2em);
+@include gap('-l', 4em);
 
 /* // Navigation */
 nav {
@@ -507,7 +648,7 @@ a {
     min-height: 2em;
     line-height: 1.2;
     border-radius: 0.3em;
-    padding: 0.3em 1.6em;
+    padding: 0.3em .8em;
 }
 
 #{$select-buttons} {
@@ -516,6 +657,9 @@ a {
     background-color: map-get($default-colors, "blue");
     color: white;
     user-select: none;
+    @include hover {
+        color: white;
+    }
 }
 
 .a-button {
