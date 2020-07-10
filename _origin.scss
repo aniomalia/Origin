@@ -117,7 +117,19 @@ $font-fallback: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto
 }
 
 /* // Spacing */
-@mixin gap($name, $col-spacing, $row-spacing: $col-spacing) {
+@mixin gap($col-spacing, $row-spacing: $col-spacing) {
+    margin: -#{$row-spacing} -#{$col-spacing/2} 0;
+    > * {
+        padding: $row-spacing #{$col-spacing/2} 0;
+    }
+}
+@mixin vgap($row-spacing) {
+    > * + * {
+        margin: 0;
+        margin-top: $row-spacing;
+    }
+}
+@mixin gaps($name, $col-spacing, $row-spacing: $col-spacing) {
     .gap#{$name} {
         margin: -#{$row-spacing} -#{$col-spacing/2} 0;
         > * {
@@ -615,9 +627,9 @@ hr {
 }
 
 /* // Spacing */
-@include gap('', 2em);
-@include gap('-s', 2em);
-@include gap('-l', 4em);
+@include gaps('', 2em);
+@include gaps('-s', 2em);
+@include gaps('-l', 4em);
 
 /* // Navigation */
 nav {
@@ -640,6 +652,8 @@ a {
     text-decoration-skip-ink: auto;
 }
 
+$buttons_radius: 0.3em;
+
 #{$select-buttons},
 #{$select-inputs} {
     -webkit-appearance: none;
@@ -647,8 +661,9 @@ a {
     align-items: center;
     min-height: 2em;
     line-height: 1.2;
-    border-radius: 0.3em;
+    border-radius: $buttons_radius;
     padding: 0.3em .8em;
+    border: 2px solid transparent;
 }
 
 #{$select-buttons} {
@@ -671,6 +686,7 @@ a {
     font-size: 1em;
     vertical-align: baseline;
     width: 100%;
+    border-color: map-get($default-colors, "blue");
 }
 textarea {
     overflow: auto;
@@ -682,6 +698,21 @@ textarea {
 select {
     &::-ms-expand {
         display: none;
+    }
+}
+
+body .a-button-group {
+    display: flex;
+    > * {
+        border-radius: 0;
+    }
+    > :first-child {
+        border-top-left-radius: $buttons_radius;
+        border-bottom-left-radius: $buttons_radius;
+    }
+    > :last-child {
+        border-top-right-radius: $buttons_radius;
+        border-bottom-right-radius: $buttons_radius;
     }
 }
 
