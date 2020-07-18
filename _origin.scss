@@ -425,6 +425,7 @@ hr {
 .l-bunch {
     display: flex;
     flex-flow: row wrap;
+    width: auto;
 }
 .l-frame {
     display: flex;
@@ -443,7 +444,7 @@ hr {
         margin-right: auto;
     }
 }
-.l-line {
+.l-flex {
     display: flex;
 }
 .l-ratio {
@@ -511,6 +512,15 @@ hr {
     justify-content: space-evenly;
 }
 
+.m-auto {
+    margin: auto;
+}
+.mv-auto {
+    margin: auto 0;
+}
+.mh-auto {
+    margin: 0 auto;
+}
 .mr-auto {
     margin-right: auto;
 }
@@ -524,7 +534,7 @@ hr {
     margin-bottom: auto;
 }
 
-.flex-fill {
+.flex-1 {
     flex: 1;
 }
 .flex-auto {
@@ -762,6 +772,9 @@ body .a-button-group {
         left: 100%;
         padding: 4px 0;
         max-width: 260px;
+        li {
+            display: block;
+        }
         a {
             padding: 4px 12px;
             line-height: 1.2;
